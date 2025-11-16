@@ -13,22 +13,34 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📊</text></svg>">
 
-  <!-- Tailwind CSS via CDN for simplicity -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: { brand: { 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3' } },
-          boxShadow: { soft: '0 8px 30px rgba(0,0,0,0.08)' }
+          boxShadow: { soft: '0 8px 30px rgba(0,0,0,0.08)', glow: '0 10px 40px rgba(79,70,229,.35)' },
+          keyframes: {
+            floaty: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-8px)' } },
+            tilt: { '0%,100%': { transform: 'rotate(-1deg)' }, '50%': { transform: 'rotate(1deg)' } }
+          },
+          animation: {
+            floaty: 'floaty 8s ease-in-out infinite',
+            tilt: 'tilt 10s ease-in-out infinite'
+          }
         }
       },
       darkMode: 'class'
     }
   </script>
-  <style> html { scroll-behavior: smooth } </style>
+  <style>
+    html { scroll-behavior: smooth }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
 
-  <!-- Structured data for better SEO -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,8 +56,12 @@
   </script>
 </head>
 <body class="bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-100">
-  <div class="min-h-screen">
-    <!-- Header / Nav -->
+  <div id="scrollbar" class="fixed top-0 left-0 h-1 bg-brand-700 w-0 z-50"></div>
+
+  <div class="min-h-screen relative overflow-x-clip">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-tr from-brand-700/20 to-indigo-300/40 blur-3xl animate-floaty"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -bottom-32 -right-20 h-80 w-80 rounded-full bg-gradient-to-tr from-fuchsia-300/30 to-brand-700/20 blur-3xl animate-tilt"></div>
+
     <header class="sticky top-0 z-40 backdrop-blur bg-white/70 dark:bg-slate-950/70 border-b border-slate-200/60 dark:border-slate-800/60">
       <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <a href="#home" class="font-semibold tracking-tight text-xl">Abhilasha Yerpude</a>
@@ -57,7 +73,7 @@
           <a class="hover:text-brand-700 dark:hover:text-brand-100" href="#contact">Contact</a>
         </nav>
         <div class="flex items-center gap-3">
-          <a href="/Abhilasha_Yerpude_PowerBI_Developer.pdf" class="rounded-xl px-3 py-2 text-sm bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-soft hover:opacity-90" download>Download Resume</a>
+          <a href="/Abhilasha_Yerpude_PowerBI_Developer.pdf" class="rounded-xl px-3 py-2 text-sm bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-soft hover:shadow-glow transition" download>Download Resume</a>
           <button id="themeToggle" aria-label="Toggle dark mode" class="rounded-xl p-2 border border-slate-200 dark:border-slate-800">
             <span id="themeIcon">🌙</span>
           </button>
@@ -65,41 +81,39 @@
       </div>
     </header>
 
-    <!-- Hero -->
-    <section id="home" class="max-w-6xl mx-auto px-4 pt-16 pb-10">
+    <section id="home" class="relative max-w-6xl mx-auto px-4 pt-16 pb-10">
       <div class="grid md:grid-cols-12 items-center gap-8">
-        <div class="md:col-span-7">
+        <div class="md:col-span-7" data-aos="fade-right">
           <p class="text-sm uppercase tracking-widest text-brand-700/90 dark:text-brand-100/90">Open to opportunities</p>
           <h1 class="mt-3 text-4xl md:text-5xl font-extrabold leading-tight">
             Hi, I'm <span class="text-brand-700 dark:text-brand-100">Abhilasha</span> —
             a Microsoft Certified Power BI Developer & Data Analyst.
           </h1>
           <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 max-w-prose">I turn raw data into actionable insights using Power BI, DAX, SQL, Azure Data Factory and Microsoft Fabric. I build accessible, performance‑first dashboards that help leaders make decisions faster.</p>
-          <div class="mt-6 flex gap-3">
-            <a href="#projects" class="rounded-xl px-4 py-2 bg-brand-700 text-white hover:bg-brand-800">View Projects</a>
-            <a href="mailto:abhilashayerpude@gmail.com" class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-700">Email Me</a>
+          <div class="mt-6 flex gap-3" data-aos="zoom-in" data-aos-delay="100">
+            <a href="#projects" class="rounded-xl px-4 py-2 bg-brand-700 text-white hover:bg-brand-800 shadow-soft hover:shadow-glow transition">View Projects</a>
+            <a href="mailto:abhilashayerpude@gmail.com" class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-700 hover:shadow-soft transition">Email Me</a>
           </div>
-          <div class="mt-6 flex items-center gap-4 text-sm">
+          <div class="mt-6 flex items-center gap-4 text-sm" data-aos="fade-up" data-aos-delay="200">
             <a class="underline underline-offset-4" href="https://www.linkedin.com/in/abhilasha-yerpude-a74857172" target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
         </div>
-        <div class="md:col-span-5">
-          <div class="aspect-square rounded-2xl overflow-hidden shadow-soft border border-slate-200 dark:border-slate-800">
-            <img src="/profile.jpg" alt="Abhilasha Yerpude" class="w-full h-full object-cover"/>
+        <div class="md:col-span-5" data-aos="fade-left">
+          <div class="relative aspect-square rounded-2xl overflow-hidden shadow-soft border border-slate-200 dark:border-slate-800">
+            <img src="/profile.jpg" alt="Abhilasha Yerpude" class="w-full h-full object-cover scale-100 transition duration-500 hover:scale-[1.02]"/>
+            <div aria-hidden class="absolute inset-0 pointer-events-none bg-gradient-to-tr from-transparent via-transparent to-white/10 dark:to-white/5"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Projects -->
     <section id="projects" class="max-w-6xl mx-auto px-4 py-12">
       <div class="flex items-end justify-between">
-        <h2 class="text-2xl md:text-3xl font-bold">Featured Projects</h2>
+        <h2 class="text-2xl md:text-3xl font-bold" data-aos="fade-up">Featured Projects</h2>
       </div>
 
       <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <!-- Project Card 1 -->
-        <article class="group rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-soft transition">
+        <article class="group rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition hover:-translate-y-1 hover:shadow-glow" data-aos="fade-up">
           <div class="h-44 w-full bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-slate-800 dark:to-slate-900 grid place-items-center text-sm">Power BI + SQL Server + OneLake</div>
           <div class="p-4">
             <h3 class="text-lg font-semibold">Nissan — Sales Analytics Dashboard</h3>
@@ -113,8 +127,7 @@
           </div>
         </article>
 
-        <!-- Project Card 2 -->
-        <article class="group rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-soft transition">
+        <article class="group rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition hover:-translate-y-1 hover:shadow-glow" data-aos="fade-up" data-aos-delay="100">
           <div class="h-44 w-full bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-slate-800 dark:to-slate-900 grid place-items-center text-sm">Revenue KPIs + Time Intelligence</div>
           <div class="p-4">
             <h3 class="text-lg font-semibold">Tata Neu — Revenue Dashboard</h3>
@@ -130,11 +143,10 @@
       </div>
     </section>
 
-    <!-- Experience -->
-    <section id="experience" class="max-w-6xl mx-auto px-4 py-12">
+    <section id="experience" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
       <h2 class="text-2xl md:text-3xl font-bold">Experience</h2>
       <ol class="mt-6 space-y-6">
-        <li class="rounded-2xl p-5 border border-slate-200 dark:border-slate-800">
+        <li class="rounded-2xl p-5 border border-slate-200 dark:border-slate-800 transition hover:shadow-soft">
           <div class="flex items-center justify-between flex-wrap gap-2">
             <h3 class="font-semibold">System Engineer — Tata Consultancy Services (TCS) • Pune</h3>
             <span class="text-xs text-slate-500">Dec 2021 – Sep 2025</span>
@@ -145,7 +157,7 @@
             <li>Partnered with Azure engineers to optimize pipelines and gateway configuration.</li>
           </ul>
         </li>
-        <li class="rounded-2xl p-5 border border-slate-200 dark:border-slate-800">
+        <li class="rounded-2xl p-5 border border-slate-200 dark:border-slate-800 transition hover:shadow-soft">
           <div class="flex items-center justify-between flex-wrap gap-2">
             <h3 class="font-semibold">Technical Associate — Talentio Solutions • Hyderabad</h3>
             <span class="text-xs text-slate-500">Feb 2021 – Dec 2021</span>
@@ -158,35 +170,32 @@
       </ol>
     </section>
 
-    <!-- Skills -->
-    <section id="skills" class="max-w-6xl mx-auto px-4 py-12">
+    <section id="skills" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
       <h2 class="text-2xl md:text-3xl font-bold">Skills</h2>
       <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
+        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900/40 dark:to-slate-900/10">
           <h4 class="font-semibold">Data Analysis & BI</h4>
           <p class="mt-2 text-slate-600 dark:text-slate-300">Power BI (Desktop, Service, Power Query), DAX, Advanced Excel</p>
         </div>
-        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
+        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900/40 dark:to-slate-900/10">
           <h4 class="font-semibold">ETL & Cloud</h4>
           <p class="mt-2 text-slate-600 dark:text-slate-300">Microsoft Fabric, Azure Data Factory, Azure SQL, Azure Data Lake, On‑Premises Data Gateway</p>
         </div>
-        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
+        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900/40 dark:to-slate-900/10">
           <h4 class="font-semibold">Databases & Modeling</h4>
           <p class="mt-2 text-slate-600 dark:text-slate-300">SQL Server, MySQL • Star & Snowflake Schemas, Fact/Dimension Tables</p>
         </div>
       </div>
     </section>
 
-    <!-- Certifications -->
-    <section id="certifications" class="max-w-6xl mx-auto px-4 py-12">
+    <section id="certifications" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
       <h2 class="text-2xl md:text-3xl font-bold">Certifications</h2>
       <ul class="mt-4 text-sm list-disc list-inside">
         <li>Microsoft Certified: Power BI Data Analyst Associate — Issued Sep 2025 (valid through Sep 2026)</li>
       </ul>
     </section>
 
-    <!-- Education & Achievements -->
-    <section class="max-w-6xl mx-auto px-4 py-12">
+    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
       <div class="grid md:grid-cols-2 gap-8">
         <div>
           <h2 class="text-2xl md:text-3xl font-bold">Education</h2>
@@ -203,18 +212,19 @@
       </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="max-w-6xl mx-auto px-4 py-12">
-      <div class="rounded-2xl p-6 border border-slate-200 dark:border-slate-800">
+    <section id="contact" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+      <div class="rounded-2xl p-6 border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900/40 dark:to-slate-900/10">
         <h2 class="text-2xl md:text-3xl font-bold">Get in touch</h2>
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">I'm available for roles in data analytics and business intelligence. The fastest way to reach me is by email.</p>
         <div class="mt-4 flex flex-wrap gap-3 text-sm">
-          <a class="rounded-xl px-4 py-2 bg-brand-700 text-white hover:bg-brand-800" href="mailto:abhilashayerpude@gmail.com">abhilashayerpude@gmail.com</a>
-          <a class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-700" href="/Abhilasha_Yerpude_PowerBI_Developer.pdf" download>Download Resume</a>
-          <a class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-700" href="https://www.linkedin.com/in/abhilasha-yerpude-a74857172" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="rounded-xl px-4 py-2 bg-brand-700 text-white hover:bg-brand-800 shadow-soft hover:shadow-glow transition" href="mailto:abhilashayerpude@gmail.com">abhilashayerpude@gmail.com</a>
+          <a class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-700 hover:shadow-soft" href="/Abhilasha_Yerpude_PowerBI_Developer.pdf" download>Download Resume</a>
+          <a class="rounded- xl px-4 py-2 border border-slate-300 dark:border-slate-700 hover:shadow-soft" href="https://www.linkedin.com/in/abhilasha-yerpude-a74857172" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
       </div>
     </section>
+
+    <button id="toTop" class="fixed bottom-6 right-6 hidden md:inline-flex items-center justify-center w-11 h-11 rounded-full bg-brand-700 text-white shadow-soft hover:shadow-glow transition" aria-label="Back to top">↑</button>
   </div>
 
   <script>
@@ -222,10 +232,27 @@
     const icon = document.getElementById('themeIcon');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const key = 'theme';
-    function apply(theme){ document.documentElement.classList.toggle('dark', theme==='dark'); icon.textContent = theme==='dark' ? '☀️' : '🌙'; }
+    function apply(theme){ document.documentElement.classList.toggle('dark', theme==='dark'); if(icon) icon.textContent = theme==='dark' ? '☀️' : '🌙'; }
     let saved = localStorage.getItem(key) || (prefersDark ? 'dark' : 'light');
     apply(saved);
-    btn.addEventListener('click', () => { saved = saved==='dark' ? 'light' : 'dark'; localStorage.setItem(key, saved); apply(saved); });
+    if (btn) btn.addEventListener('click', () => { saved = saved==='dark' ? 'light' : 'dark'; localStorage.setItem(key, saved); apply(saved); });
+
+    const bar = document.getElementById('scrollbar');
+    function onScroll(){
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+      if (bar) bar.style.width = scrolled + 'vw';
+      const topBtn = document.getElementById('toTop');
+      if (topBtn) topBtn.style.display = h.scrollTop > 400 ? 'inline-flex' : 'none';
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const toTop = document.getElementById('toTop');
+    if (toTop) toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    window.addEventListener('load', () => { if (window.AOS) AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic' }); });
   </script>
 </body>
 </html>
+
