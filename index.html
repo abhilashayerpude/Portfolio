@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Abhilasha Yerpude — Power BI Developer</title>
-  <meta name="description" content="Microsoft Certified Power BI Developer and Data Analyst — dashboards, DAX, Azure Data Factory, Microsoft Fabric." />
-  <meta property="og:title" content="Abhilasha Yerpude — Portfolio" />
-  <meta property="og:description" content="Power BI Developer | Data Analyst" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://your-vercel-url.vercel.app" />
-  <meta property="og:image" content="/profile.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="description" content="Power BI Developer & Data Analyst — dashboards, DAX, Azure Data Factory, Microsoft Fabric.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📊</text></svg>">
-
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
-  <script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: { brand: { 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3' } },
-          boxShadow: { soft: '0 8px 30px rgba(0,0,0,0.08)', glow: '0 10px 40px rgba(79,70,229,.35)' },
-          keyframes: {
-            floaty: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-8px)' } },
-            tilt: { '0%,100%': { transform: 'rotate(-1deg)' }, '50%': { transform: 'rotate(1deg)' } }
+          colors: {
+            brand: {
+              // Power BI palette
+              navy: '#0f172a',     // deep navy
+              blue: '#1e3a8a',     // accent navy blue
+              gold: '#F2C811',     // Power BI yellow
+              gold2: '#f6d44f'     // softer gold
+            }
           },
-          animation: {
-            floaty: 'floaty 8s ease-in-out infinite',
-            tilt: 'tilt 10s ease-in-out infinite'
+          boxShadow: {
+            glow: '0 10px 40px rgba(242,200,17,.35)'
           }
         }
       },
@@ -37,222 +30,264 @@
     }
   </script>
   <style>
-    html { scroll-behavior: smooth }
+    html { scroll-behavior: smooth; }
+    .card { transition: transform .35s ease, box-shadow .35s ease; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 48px rgba(0,0,0,.18); }
+    /* Adaptive scrims for readability on any background */
+    .scrim { background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.92)); backdrop-filter: saturate(120%) blur(4px); }
+    .scrim-strong { background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.94)); }
+    .dark .scrim { background: linear-gradient(180deg, rgba(3,7,18,.86), rgba(3,7,18,.84)); }
+    .dark .scrim-strong { background: linear-gradient(180deg, rgba(3,7,18,.90), rgba(3,7,18,.88)); }
+    /* Soft text shadow to improve contrast on complex bg */
+    .text-pop { text-shadow: 0 1px 2px rgba(0,0,0,.18); }
+    /* Focus ring in gold for accessibility */
+    :where(a,button,input,select,textarea):focus-visible { outline: 2px solid #F2C811; outline-offset: 2px; border-radius: .75rem; }
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
   </style>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Abhilasha Yerpude",
-    "jobTitle": "Power BI Developer | Data Analyst",
-    "url": "https://your-vercel-url.vercel.app",
-    "email": "mailto:abhilashayerpude@gmail.com",
-    "sameAs": [
-      "https://www.linkedin.com/in/abhilasha-yerpude-a74857172"
-    ]
-  }
-  </script>
+  <!-- Effects -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
 </head>
-<body class="bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-100">
-  <div id="scrollbar" class="fixed top-0 left-0 h-1 bg-brand-700 w-0 z-50"></div>
+<body class="bg-white text-slate-800 dark:bg-brand-navy dark:text-slate-100">
+  <!-- Data network background (behind everything) -->
+  <div id="tsparticles" class="fixed inset-0 -z-10"></div>
 
-  <div class="min-h-screen relative overflow-x-clip">
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-tr from-brand-700/20 to-indigo-300/40 blur-3xl animate-floaty"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -bottom-32 -right-20 h-80 w-80 rounded-full bg-gradient-to-tr from-fuchsia-300/30 to-brand-700/20 blur-3xl animate-tilt"></div>
+  <!-- Subtle crossfade gradient to help contrast near edges -->
+  <div class="pointer-events-none fixed inset-0 -z-10" style="background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(242,200,17,.08), transparent 70%),
+    radial-gradient(1000px 500px at 0% 110%, rgba(30,58,138,.10), transparent 70%);"></div>
 
-    <header class="sticky top-0 z-40 backdrop-blur bg-white/70 dark:bg-slate-950/70 border-b border-slate-200/60 dark:border-slate-800/60">
-      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="#home" class="font-semibold tracking-tight text-xl">Abhilasha Yerpude</a>
-        <nav class="hidden md:flex gap-6 text-sm">
-          <a class="hover:text-brand-700 dark:hover:text-brand-100" href="#projects">Projects</a>
-          <a class="hover:text-brand-700 dark:hover:text-brand-100" href="#experience">Experience</a>
-          <a class="hover:text-brand-700 dark:hover:text-brand-100" href="#skills">Skills</a>
-          <a class="hover:text-brand-700 dark:hover:text-brand-100" href="#certifications">Certifications</a>
-          <a class="hover:text-brand-700 dark:hover:text-brand-100" href="#contact">Contact</a>
-        </nav>
-        <div class="flex items-center gap-3">
-          <a href="/Abhilasha_Yerpude_PowerBI_Developer.pdf" class="rounded-xl px-3 py-2 text-sm bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-soft hover:shadow-glow transition" download>Download Resume</a>
-          <button id="themeToggle" aria-label="Toggle dark mode" class="rounded-xl p-2 border border-slate-200 dark:border-slate-800">
-            <span id="themeIcon">🌙</span>
-          </button>
-        </div>
+  <!-- Scroll bar -->
+  <div id="progress" class="fixed top-0 left-0 h-1 bg-brand-gold w-0 z-50"></div>
+
+  <!-- Nav -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/75 dark:bg-brand-navy/75 border-b border-slate-200/60 dark:border-slate-800/60">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#home" class="font-semibold tracking-tight text-lg text-pop">Abhilasha Yerpude</a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a class="hover:text-brand-gold" href="#about">About</a>
+        <a class="hover:text-brand-gold" href="#skills">Skills</a>
+        <a class="hover:text-brand-gold" href="#projects">Projects</a>
+        <a class="hover:text-brand-gold" href="#experience">Experience</a>
+        <a class="hover:text-brand-gold" href="#contact">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="/Abhilasha_Yerpude_PowerBI_Developer.pdf" download
+           class="rounded-xl px-3 py-2 text-sm bg-brand-gold text-brand-navy hover:shadow-glow">Download Resume</a>
+        <button id="toggle" class="rounded-xl p-2 border border-slate-200 dark:border-slate-700" aria-label="Toggle theme">🌙</button>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <section id="home" class="relative max-w-6xl mx-auto px-4 pt-16 pb-10">
-      <div class="grid md:grid-cols-12 items-center gap-8">
-        <div class="md:col-span-7" data-aos="fade-right">
-          <p class="text-sm uppercase tracking-widest text-brand-700/90 dark:text-brand-100/90">Open to opportunities</p>
-          <h1 class="mt-3 text-4xl md:text-5xl font-extrabold leading-tight">
-            Hi, I'm <span class="text-brand-700 dark:text-brand-100">Abhilasha</span> —
-            a Microsoft Certified Power BI Developer & Data Analyst.
-          </h1>
-          <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 max-w-prose">I turn raw data into actionable insights using Power BI, DAX, SQL, Azure Data Factory and Microsoft Fabric. I build accessible, performance‑first dashboards that help leaders make decisions faster.</p>
-          <div class="mt-6 flex gap-3" data-aos="zoom-in" data-aos-delay="100">
-            <a href="#projects" class="rounded-xl px-4 py-2 bg-brand-700 text-white hover:bg-brand-800 shadow-soft hover:shadow-glow transition">View Projects</a>
-            <a href="mailto:abhilashayerpude@gmail.com" class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-700 hover:shadow-soft transition">Email Me</a>
-          </div>
-          <div class="mt-6 flex items-center gap-4 text-sm" data-aos="fade-up" data-aos-delay="200">
-            <a class="underline underline-offset-4" href="https://www.linkedin.com/in/abhilasha-yerpude-a74857172" target="_blank" rel="noreferrer">LinkedIn</a>
-          </div>
-        </div>
-        <div class="md:col-span-5" data-aos="fade-left">
-          <div class="relative aspect-square rounded-2xl overflow-hidden shadow-soft border border-slate-200 dark:border-slate-800">
-            <img src="/profile.jpg" alt="Abhilasha Yerpude" class="w-full h-full object-cover scale-100 transition duration-500 hover:scale-[1.02]"/>
-            <div aria-hidden class="absolute inset-0 pointer-events-none bg-gradient-to-tr from-transparent via-transparent to-white/10 dark:to-white/5"></div>
-          </div>
-        </div>
+  <!-- Hero -->
+  <section id="home" class="max-w-6xl mx-auto px-4 pt-14 pb-12 grid md:grid-cols-12 items-center gap-8">
+    <div class="md:col-span-7 scrim-strong rounded-2xl p-5 md:p-6" data-aos="fade-right">
+      <h1 class="text-4xl md:text-5xl font-extrabold leading-tight text-pop">
+        Hi, I'm <span class="text-brand-blue">Abhilasha</span>
+      </h1>
+      <p class="mt-2 text-lg text-slate-700 dark:text-slate-200 text-pop">
+        <span id="typed"></span>
+      </p>
+      <div class="mt-6 flex gap-3">
+        <a href="#projects" class="rounded-xl px-4 py-2 bg-brand-gold text-brand-navy hover:shadow-glow">View Projects</a>
+        <a href="mailto:abhilashayerpude@gmail.com" class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-600">Email Me</a>
       </div>
-    </section>
-
-    <section id="projects" class="max-w-6xl mx-auto px-4 py-12">
-      <div class="flex items-end justify-between">
-        <h2 class="text-2xl md:text-3xl font-bold" data-aos="fade-up">Featured Projects</h2>
+      <div class="mt-6 text-sm">
+        <a class="underline underline-offset-4 hover:text-brand-gold" href="https://www.linkedin.com/in/abhilasha-yerpude-a74857172" target="_blank" rel="noreferrer">LinkedIn</a>
       </div>
+    </div>
+    <div class="md:col-span-5" data-aos="fade-left">
+      <div class="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700" data-tilt data-tilt-max="8" data-tilt-speed="400">
+        <img src="/profile.jpg" alt="Abhilasha Yerpude" class="w-full h-full object-cover">
+      </div>
+    </div>
+  </section>
 
-      <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <article class="group rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition hover:-translate-y-1 hover:shadow-glow" data-aos="fade-up">
-          <div class="h-44 w-full bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-slate-800 dark:to-slate-900 grid place-items-center text-sm">Power BI + SQL Server + OneLake</div>
-          <div class="p-4">
-            <h3 class="text-lg font-semibold">Nissan — Sales Analytics Dashboard</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">End‑to‑end dashboards with RLS and scheduled refresh, integrating SQL Server, OneLake and Excel via Microsoft Fabric Dataflow Gen2 and Azure Data Factory. Enabled near real‑time reporting across 5 regions and reduced decision latency from 1 day to 15 minutes.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Power BI</span>
-              <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">DAX</span>
-              <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Microsoft Fabric</span>
-              <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Azure Data Factory</span>
-            </div>
+  <!-- About -->
+  <section id="about" class="max-w-6xl mx-auto px-4 py-10">
+    <div class="scrim rounded-2xl p-5 md:p-6" data-aos="fade-up">
+      <h2 class="text-2xl md:text-3xl font-bold text-pop">About</h2>
+      <p class="mt-4 text-slate-700 dark:text-slate-200 max-w-3xl text-pop">
+        Microsoft Certified Power BI Developer & Data Analyst. I turn raw data into actionable insights using Power BI, DAX, SQL, Azure Data Factory, and Microsoft Fabric. Based in Pune.
+      </p>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold text-pop" data-aos="fade-up">Skills</h2>
+    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+      <div class="card scrim rounded-2xl p-4 border border-slate-200 dark:border-slate-700" data-aos="zoom-in">
+        <h4 class="font-semibold">Data Analysis & BI</h4>
+        <p class="mt-2">Power BI (Desktop, Service, Power Query), DAX, Advanced Excel</p>
+      </div>
+      <div class="card scrim rounded-2xl p-4 border border-slate-200 dark:border-slate-700" data-aos="zoom-in" data-aos-delay="50">
+        <h4 class="font-semibold">ETL & Cloud</h4>
+        <p class="mt-2">Microsoft Fabric, Azure Data Factory, Azure SQL, Azure Data Lake, On‑Premises Gateway</p>
+      </div>
+      <div class="card scrim rounded-2xl p-4 border border-slate-200 dark:border-slate-700" data-aos="zoom-in" data-aos-delay="100">
+        <h4 class="font-semibold">Databases & Modeling</h4>
+        <p class="mt-2">SQL Server, MySQL · Star/Snowflake Schemas, Fact/Dimension Modeling</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="max-w-6xl mx-auto px-4 py-10">
+    <div class="flex items-end justify-between">
+      <h2 class="text-2xl md:text-3xl font-bold text-pop" data-aos="fade-up">Featured Projects</h2>
+    </div>
+    <div class="mt-8 grid md:grid-cols-2 gap-6">
+      <article class="card scrim rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden" data-tilt data-tilt-max="6" data-aos="fade-up">
+        <div class="h-44 w-full bg-gradient-to-r from-brand-gold/20 via-white/40 to-brand-gold/20 dark:from-brand-navy/30 dark:via-brand-navy/10 dark:to-brand-navy/30 grid place-items-center text-sm">Power BI + SQL Server + OneLake</div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-2">
+			<img src="nissan.png" alt="Nissan logo" class="h-6 w-auto">
+			<h3 class="text-lg font-semibold">Nissan — Sales Analytics Dashboard</h3>
+</div>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-200">Near real‑time sales KPIs across 5 regions, RLS and scheduled refresh via Microsoft Fabric Dataflow Gen2 and Azure Data Factory.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Power BI</span>
+            <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">DAX</span>
+            <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Microsoft Fabric</span>
+            <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Azure Data Factory</span>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <article class="group rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden transition hover:-translate-y-1 hover:shadow-glow" data-aos="fade-up" data-aos-delay="100">
-          <div class="h-44 w-full bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-slate-800 dark:to-slate-900 grid place-items-center text-sm">Revenue KPIs + Time Intelligence</div>
-          <div class="p-4">
-            <h3 class="text-lg font-semibold">Tata Neu — Revenue Dashboard</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Revenue tracking with YTD/MTD, SAMEPERIODLASTYEAR measures, star‑schema modelling, dynamic filters and automated refresh for 99.9% uptime. Improved reporting accuracy to 98% and accelerated onboarding with documentation.</p>
-            <div class="mt-3 flex flex-wrap gap-2 text-xs">
-              <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Power BI</span>
-              <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">DAX</span>
-              <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Star Schema</span>
-              <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Azure</span>
-            </div>
+      <article class="card scrim rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden" data-tilt data-tilt-max="6" data-aos="fade-up" data-aos-delay="80">
+        <div class="h-44 w-full bg-gradient-to-r from-brand-gold/20 via-white/40 to-brand-gold/20 dark:from-brand-navy/30 dark:via-brand-navy/10 dark:to-brand-navy/30 grid place-items-center text-sm">Revenue KPIs + Time Intelligence</div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-2">
+  <img src="tataneu.png" alt="Tata Neu logo" class="h-6 w-auto">
+  <h3 class="text-lg font-semibold">Tata Neu — Revenue Dashboard</h3>
+</div>
+
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-200">YTD/MTD, SAMEPERIODLASTYEAR measures, star schema modeling and automated refresh for 99.9% uptime and 98% reporting accuracy.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-xs">
+            <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Power BI</span>
+            <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">DAX</span>
+            <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Star Schema</span>
+            <span class="px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">Azure</span>
           </div>
-        </article>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-2xl md:text-3xl font-bold text-pop" data-aos="fade-up">Experience</h2>
+    <ol class="mt-6 space-y-6">
+      <li class="scrim rounded-2xl p-5 border border-slate-200 dark:border-slate-700" data-aos="fade-up">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <h3 class="font-semibold">System Engineer — Tata Consultancy Services (TCS) • Pune</h3>
+          <span class="text-xs text-slate-600 dark:text-slate-300">Dec 2021 – Sep 2025</span>
+        </div>
+        <ul class="mt-3 list-disc list-inside text-sm text-slate-700 dark:text-slate-200 space-y-1">
+          <li>Interactive Power BI dashboards with DAX, RLS, and scheduled refresh.</li>
+          <li>Automated ETL using Microsoft Fabric Dataflow Gen2 and Azure Data Factory.</li>
+          <li>Optimized pipelines and gateway configuration with Azure engineers.</li>
+        </ul>
+      </li>
+      <li class="scrim rounded-2xl p-5 border border-slate-200 dark:border-slate-700" data-aos="fade-up" data-aos-delay="60">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <h3 class="font-semibold">Technical Associate — Talentio Solutions • Hyderabad</h3>
+          <span class="text-xs text-slate-600 dark:text-slate-300">Feb 2021 – Dec 2021</span>
+        </div>
+        <ul class="mt-3 list-disc list-inside text-sm text-slate-700 dark:text-slate-200 space-y-1">
+          <li>Delivered Power BI & SQL training to 100+ learners with hands-on material.</li>
+          <li>Improved engagement across online and offline sessions.</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="max-w-6xl mx-auto px-4 py-10">
+    <div class="scrim rounded-2xl p-6 border border-slate-200 dark:border-slate-700" data-aos="fade-up">
+      <h2 class="text-2xl md:text-3xl font-bold text-pop">Get in touch</h2>
+      <p class="mt-2 text-sm text-slate-700 dark:text-slate-200">Open to roles in Data Analytics & BI. Fastest way to reach me is by email.</p>
+      <div class="mt-4 flex flex-wrap gap-3 text-sm">
+        <a class="rounded-xl px-4 py-2 bg-brand-gold text-brand-navy hover:shadow-glow" href="mailto:abhilashayerpude@gmail.com">abhilashayerpude@gmail.com</a>
+        <a class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-600" href="/Abhilasha_Yerpude_PowerBI_Developer.pdf" download>Download Resume</a>
+        <a class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-600" href="https://www.linkedin.com/in/abhilasha-yerpude-a74857172" target="_blank" rel="noreferrer">LinkedIn</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="experience" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-      <h2 class="text-2xl md:text-3xl font-bold">Experience</h2>
-      <ol class="mt-6 space-y-6">
-        <li class="rounded-2xl p-5 border border-slate-200 dark:border-slate-800 transition hover:shadow-soft">
-          <div class="flex items-center justify-between flex-wrap gap-2">
-            <h3 class="font-semibold">System Engineer — Tata Consultancy Services (TCS) • Pune</h3>
-            <span class="text-xs text-slate-500">Dec 2021 – Sep 2025</span>
-          </div>
-          <ul class="mt-3 list-disc list-inside text-sm text-slate-700 dark:text-slate-300 space-y-1">
-            <li>Built interactive Power BI dashboards with DAX, RLS, and scheduled refresh.</li>
-            <li>Automated ETL with Microsoft Fabric Dataflow Gen2 and Azure Data Factory.</li>
-            <li>Partnered with Azure engineers to optimize pipelines and gateway configuration.</li>
-          </ul>
-        </li>
-        <li class="rounded-2xl p-5 border border-slate-200 dark:border-slate-800 transition hover:shadow-soft">
-          <div class="flex items-center justify-between flex-wrap gap-2">
-            <h3 class="font-semibold">Technical Associate — Talentio Solutions • Hyderabad</h3>
-            <span class="text-xs text-slate-500">Feb 2021 – Dec 2021</span>
-          </div>
-          <ul class="mt-3 list-disc list-inside text-sm text-slate-700 dark:text-slate-300 space-y-1">
-            <li>Delivered Power BI & SQL training to 100+ learners; designed hands‑on materials.</li>
-            <li>Improved engagement and outcomes across online/offline sessions.</li>
-          </ul>
-        </li>
-      </ol>
-    </section>
-
-    <section id="skills" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-      <h2 class="text-2xl md:text-3xl font-bold">Skills</h2>
-      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900/40 dark:to-slate-900/10">
-          <h4 class="font-semibold">Data Analysis & BI</h4>
-          <p class="mt-2 text-slate-600 dark:text-slate-300">Power BI (Desktop, Service, Power Query), DAX, Advanced Excel</p>
-        </div>
-        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900/40 dark:to-slate-900/10">
-          <h4 class="font-semibold">ETL & Cloud</h4>
-          <p class="mt-2 text-slate-600 dark:text-slate-300">Microsoft Fabric, Azure Data Factory, Azure SQL, Azure Data Lake, On‑Premises Data Gateway</p>
-        </div>
-        <div class="rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900/40 dark:to-slate-900/10">
-          <h4 class="font-semibold">Databases & Modeling</h4>
-          <p class="mt-2 text-slate-600 dark:text-slate-300">SQL Server, MySQL • Star & Snowflake Schemas, Fact/Dimension Tables</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="certifications" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-      <h2 class="text-2xl md:text-3xl font-bold">Certifications</h2>
-      <ul class="mt-4 text-sm list-disc list-inside">
-        <li>Microsoft Certified: Power BI Data Analyst Associate — Issued Sep 2025 (valid through Sep 2026)</li>
-      </ul>
-    </section>
-
-    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-      <div class="grid md:grid-cols-2 gap-8">
-        <div>
-          <h2 class="text-2xl md:text-3xl font-bold">Education</h2>
-          <p class="mt-4 text-sm">B.E., SVP College of Engineering & Technology, Nagpur (2016–2020)</p>
-        </div>
-        <div>
-          <h2 class="text-2xl md:text-3xl font-bold">Awards & Achievements</h2>
-          <ul class="mt-4 text-sm list-disc list-inside">
-            <li>Star Performer Award at TCS for impactful Power BI dashboards.</li>
-            <li>Recognized for optimizing ETL with Microsoft Fabric & Azure Data Factory.</li>
-            <li>Praised for proactive problem‑solving and DAX best‑practice mentoring.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-      <div class="rounded-2xl p-6 border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900/40 dark:to-slate-900/10">
-        <h2 class="text-2xl md:text-3xl font-bold">Get in touch</h2>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">I'm available for roles in data analytics and business intelligence. The fastest way to reach me is by email.</p>
-        <div class="mt-4 flex flex-wrap gap-3 text-sm">
-          <a class="rounded-xl px-4 py-2 bg-brand-700 text-white hover:bg-brand-800 shadow-soft hover:shadow-glow transition" href="mailto:abhilashayerpude@gmail.com">abhilashayerpude@gmail.com</a>
-          <a class="rounded-xl px-4 py-2 border border-slate-300 dark:border-slate-700 hover:shadow-soft" href="/Abhilasha_Yerpude_PowerBI_Developer.pdf" download>Download Resume</a>
-          <a class="rounded- xl px-4 py-2 border border-slate-300 dark:border-slate-700 hover:shadow-soft" href="https://www.linkedin.com/in/abhilasha-yerpude-a74857172" target="_blank" rel="noreferrer">LinkedIn</a>
-        </div>
-      </div>
-    </section>
-
-    <button id="toTop" class="fixed bottom-6 right-6 hidden md:inline-flex items-center justify-center w-11 h-11 rounded-full bg-brand-700 text-white shadow-soft hover:shadow-glow transition" aria-label="Back to top">↑</button>
-  </div>
+  <button id="toTop" class="fixed bottom-6 right-6 hidden md:inline-flex items-center justify-center w-11 h-11 rounded-full bg-brand-gold text-brand-navy shadow hover:shadow-glow" aria-label="Back to top">↑</button>
 
   <script>
-    const btn = document.getElementById('themeToggle');
-    const icon = document.getElementById('themeIcon');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Theme toggle
+    const t = document.getElementById('toggle');
     const key = 'theme';
-    function apply(theme){ document.documentElement.classList.toggle('dark', theme==='dark'); if(icon) icon.textContent = theme==='dark' ? '☀️' : '🌙'; }
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    function apply(theme){ document.documentElement.classList.toggle('dark', theme==='dark'); t.textContent = theme==='dark' ? '☀️' : '🌙'; }
     let saved = localStorage.getItem(key) || (prefersDark ? 'dark' : 'light');
     apply(saved);
-    if (btn) btn.addEventListener('click', () => { saved = saved==='dark' ? 'light' : 'dark'; localStorage.setItem(key, saved); apply(saved); });
+    t.addEventListener('click', () => { saved = saved==='dark' ? 'light' : 'dark'; localStorage.setItem(key, saved); apply(saved); });
 
-    const bar = document.getElementById('scrollbar');
+    // Typed text
+    new Typed('#typed', {
+      strings: [
+        'Microsoft Certified <strong>Power BI Developer</strong>',
+        '<strong>Data Analyst</strong> working with DAX, SQL, and Azure',
+        'Turning raw data into <strong>actionable insights</strong>'
+      ],
+      typeSpeed: 40, backSpeed: 16, backDelay: 1200, loop: true
+    });
+
+    // AOS
+    AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic' });
+
+    // Tilt
+    VanillaTilt.init(document.querySelectorAll('[data-tilt]'), { speed: 400, max: 8, glare: false });
+
+    // Scroll progress + back to top
+    const bar = document.getElementById('progress');
+    const toTop = document.getElementById('toTop');
     function onScroll(){
       const h = document.documentElement;
       const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-      if (bar) bar.style.width = scrolled + 'vw';
-      const topBtn = document.getElementById('toTop');
-      if (topBtn) topBtn.style.display = h.scrollTop > 400 ? 'inline-flex' : 'none';
+      bar.style.width = scrolled + 'vw';
+      toTop.style.display = h.scrollTop > 450 ? 'inline-flex' : 'none';
     }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    const toTop = document.getElementById('toTop');
-    if (toTop) toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    window.addEventListener('load', () => { if (window.AOS) AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic' }); });
+    // Particles (Power BI theme; increased contrast but still subtle)
+    (async () => {
+      const { tsParticles } = window;
+      await tsParticles.load("tsparticles", {
+        fullScreen: { enable: false },
+        background: { color: { value: "transparent" } },
+        fpsLimit: 60,
+        detectRetina: true,
+        particles: {
+          number: { value: 36, density: { enable: true, area: 900 } },
+          color: { value: ["#F2C811", "#f6d44f", "#1e3a8a"] },
+          links: { enable: true, color: "#F2C811", distance: 120, opacity: 0.25, width: 1 },
+          move: { enable: true, speed: 0.6, outModes: { default: "out" } },
+          opacity: { value: 0.28 },
+          size: { value: { min: 1, max: 2.5 } },
+          shape: { type: "circle" }
+        },
+        interactivity: {
+          events: {
+            onHover: { enable: true, mode: "grab" },
+            resize: true
+          },
+          modes: {
+            grab: { links: { opacity: 0.4 } }
+          }
+        }
+      });
+    })();
   </script>
 </body>
 </html>
-
